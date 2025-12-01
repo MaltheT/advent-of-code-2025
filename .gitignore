@@ -1,0 +1,9 @@
+**/files/wpa_supplicant-wlan0.conf
+**/build
+*.o
+*.a
+*.cache
+temp-control
+compile_commands.json
+.vscode/
+.idea/
