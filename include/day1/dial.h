@@ -8,3 +8,5 @@ typedef struct Dial {
 void RotateDial(struct Dial *dial, char direction, int distance);
 
 int CalculatePassword(struct Dial *dial, struct InputSequence *input_sequence);
+int CalculatePasswordPart2(struct Dial *dial,
+                           struct InputSequence *input_sequence);

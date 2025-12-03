@@ -30,3 +30,30 @@ int CalculatePassword(struct Dial *dial, struct InputSequence *input_sequence) {
   }
   return ctr;
 }
+
+int CalculatePasswordPart2(struct Dial *dial,
+                           struct InputSequence *input_sequence) {
+  int ctr = 0;
+  for (int i = 0; i < input_sequence->size; i++) {
+
+    int arrow_position_before = dial->arrow_position;
+
+    RotateDial(dial, input_sequence->directions[i],
+               input_sequence->distances[i]);
+
+    int arrow_position_after = dial->arrow_position;
+
+    ctr += input_sequence->distances[i] / 100;
+    if (input_sequence->directions[i] == 'L') {
+      if (arrow_position_after > arrow_position_before) {
+        ctr++;
+      }
+    }
+    if (input_sequence->directions[i] == 'R') {
+      if (arrow_position_after < arrow_position_before) {
+        ctr++;
+      }
+    }
+  }
+  return ctr;
+}
