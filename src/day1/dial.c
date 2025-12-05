@@ -34,7 +34,7 @@ int CalculatePassword(struct Dial *dial, struct InputSequence *input_sequence) {
 int CalculatePasswordPart2(struct Dial *dial,
                            struct InputSequence *input_sequence) {
   int ctr = 0;
-  for (int i = 0; i < input_sequence->size; i++) {
+  for (int i = 0; i <= input_sequence->size - 1; i++) {
 
     int arrow_position_before = dial->arrow_position;
 

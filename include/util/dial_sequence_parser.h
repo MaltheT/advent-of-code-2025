@@ -5,4 +5,3 @@ typedef struct InputSequence {
 } InputSequence;
 
 InputSequence ReadInputSequence(char *path_to_txt);
-int Concat(int a, int b);

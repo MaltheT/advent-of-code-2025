@@ -50,6 +50,8 @@ target_include_directories(${PROJECT_NAME}_lib
         ${PROJECT_SOURCE_DIR}/include
 )
 
+target_compile_definitions(${PROJECT_NAME} PRIVATE _POSIX_C_SOURCE=200809L)
+target_compile_definitions(${PROJECT_NAME}_lib PRIVATE _POSIX_C_SOURCE=200809L)
 # Installation rules (optional)
 install(TARGETS ${PROJECT_NAME}
     RUNTIME DESTINATION bin
