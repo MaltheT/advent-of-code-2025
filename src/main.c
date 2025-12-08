@@ -1,10 +1,11 @@
 #include "day1/dial.h"
 #include "day2/identify_invalid_ids.h"
+#include "day3/battery_activator.h"
 #include "util/banks_parser.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-void Day1Part1(void) {
+void day1_part1(void) {
 
   Dial dial = {.max_position = 99, .min_position = 0, .arrow_position = 50};
   InputSequence input_sequence = ReadInputSequence(
@@ -15,7 +16,7 @@ void Day1Part1(void) {
   free(input_sequence.directions);
 }
 
-void Day1Part2(void) {
+void day1_part2(void) {
 
   Dial dial = {.max_position = 99, .min_position = 0, .arrow_position = 50};
   InputSequence input_sequence = ReadInputSequence(
@@ -26,7 +27,7 @@ void Day1Part2(void) {
   free(input_sequence.directions);
 }
 
-void Day2Part1(void) {
+void day2_part1(void) {
   InputIds input_ids = ReadInputIds(
       "/home/mtb/Projects/advent-of-code-2025/input/invalid_ids.txt");
   int sum = IdentifyInvalidIds(&input_ids);
@@ -34,19 +35,20 @@ void Day2Part1(void) {
   printf("d2p1 sum of invalid ids: %d\n", sum);
 }
 
-void Day3Part1(void) {
+void day3_part1(void) {
   Matrix input_banks =
       ReadInputBanks("/home/mtb/Projects/advent-of-code-2025/input/banks.txt");
 
-  printf("d3p1 max joltage from banks: %d\n",
-         *get_matrix_element(&input_banks, 0, 0));
+  int max_joltage = max_joltage_part1(&input_banks);
+
+  printf("d3p1 max joltage from banks: %d\n", max_joltage);
 }
 
 int main(int argc, char *argv[]) {
-  Day1Part1();
-  Day1Part2();
-  Day2Part1();
-  Day3Part1();
+  day1_part1();
+  day1_part2();
+  day2_part1();
+  day3_part1();
 
   return EXIT_SUCCESS;
 }

@@ -2,15 +2,15 @@
 #include <stdio.h>
 
 void RotateDial(struct Dial *dial, char direction, int distance) {
-  distance = distance % 100;
+  int _distance = distance % 100;
 
   if (direction == 'L') {
-    dial->arrow_position -= distance;
+    dial->arrow_position -= _distance;
     if (dial->arrow_position < dial->min_position) {
       dial->arrow_position += dial->max_position + 1;
     }
   } else if (direction == 'R') {
-    dial->arrow_position += distance;
+    dial->arrow_position += _distance;
     if (dial->arrow_position > dial->max_position) {
       dial->arrow_position -= dial->max_position + 1;
     }
@@ -44,8 +44,12 @@ int CalculatePasswordPart2(struct Dial *dial,
     int arrow_position_after = dial->arrow_position;
 
     ctr += input_sequence->distances[i] / 100;
+
     if (input_sequence->directions[i] == 'L') {
       if (arrow_position_after > arrow_position_before) {
+        ctr++;
+      }
+      if (arrow_position_after == 0) {
         ctr++;
       }
     }
@@ -57,3 +61,5 @@ int CalculatePasswordPart2(struct Dial *dial,
   }
   return ctr;
 }
+// it is not 5956, 6936
+// testing 6435
