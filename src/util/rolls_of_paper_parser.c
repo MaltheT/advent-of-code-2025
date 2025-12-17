@@ -1,8 +1,8 @@
-#include "util/banks_parser.h"
+#include "util/matrix.h"
 #include <stdio.h>
 #include <string.h>
 
-Matrix ReadInputBanks(char *path_to_txt) {
+Matrix read_input_rolls_of_paper(char *path_to_txt) {
 
   FILE *fptr;
   fptr = fopen(path_to_txt, "r");
@@ -16,23 +16,19 @@ Matrix ReadInputBanks(char *path_to_txt) {
     length = strlen(token);
   };
 
-  Matrix banks_matrix = create_matrix(size, length, sizeof(int));
+  Matrix rolls_of_paper_matrix = create_matrix(size, length, sizeof(char));
 
   int row_idx = 0;
   fseek(fptr, 0, SEEK_SET);
   while (fgets(buff, 256, fptr)) {
     char *token = strtok(buff, "\n");
     for (size_t col_idx = 0; col_idx < length; col_idx++) {
-      int value = token[col_idx] - '0';
-      if (value <= 9 && value >= 0) {
-        set_matrix_element(&banks_matrix, row_idx, col_idx, &value);
-      } else {
-        printf("Character could not be converted to single digit int\n");
-      }
+      char value = token[col_idx];
+      set_matrix_element(&rolls_of_paper_matrix, row_idx, col_idx, &value);
     }
     row_idx++;
   };
   fclose(fptr);
 
-  return banks_matrix;
+  return rolls_of_paper_matrix;
 }

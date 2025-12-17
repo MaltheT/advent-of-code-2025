@@ -7,7 +7,7 @@ int max_joltage_part1(Matrix *banks) {
 
   for (unsigned int i = 0; i < banks->M; i++) {
     for (unsigned int j = 0; j < banks->N; j++) {
-      int value = *get_matrix_element(banks, i, j);
+      int value = *(int *)get_matrix_element(banks, i, j);
       Battery batt_tmp = {.joltage = value, .idx = j};
       int curr = activate_batteries(batt1, batt2);
       int res1 = activate_batteries(batt1, batt_tmp);
@@ -37,6 +37,7 @@ int activate_batteries(Battery batt1, Battery batt2) {
   }
   return concatenate(batt2.joltage, batt1.joltage);
 }
+
 int activate_batteries_array(Battery *batts) {}
 
 // Source - https://stackoverflow.com/a
@@ -57,7 +58,7 @@ int MaxJoltagePart2(Matrix *banks) {
 
   for (unsigned int i = 0; i < banks->M; i++) {
     for (unsigned int j = 0; j < banks->N; j++) {
-      int value = *get_matrix_element(banks, i, j);
+      int value = *(int *)get_matrix_element(banks, i, j);
       Battery batt_tmp = {.joltage = value, .idx = j};
       int curr = activate_batteries(batt1, batt2);
       int res1 = activate_batteries(batt1, batt_tmp);

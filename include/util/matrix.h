@@ -3,16 +3,20 @@
 // Posted by Tarek Dakhran
 // Retrieved 2025-12-05, License - CC BY-SA 4.0
 
+#include <stdlib.h>
+
 typedef struct {
   unsigned M;
   unsigned N;
-  int *data;
+  size_t element_size;
+  void *data;
 } Matrix;
 
-Matrix create_matrix(unsigned M, unsigned N);
+Matrix create_matrix(unsigned M, unsigned N, size_t element_size);
 
-int *get_matrix_element(Matrix *matrix, unsigned m, unsigned n);
+void *get_matrix_element(Matrix *matrix, unsigned m, unsigned n);
 
-void set_matrix_element(Matrix *matrix, unsigned m, unsigned n, int value);
+void set_matrix_element(Matrix *matrix, unsigned m, unsigned n,
+                        const void *value);
 
 void delete_matrix(Matrix *matrix);
