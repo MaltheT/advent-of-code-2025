@@ -1,6 +1,7 @@
 #include "day1/dial.h"
 #include "day2/identify_invalid_ids.h"
 #include "day3/battery_activator.h"
+#include "day4/accessible_rolls_of_paper.h"
 #include "util/banks_parser.h"
 #include "util/matrix.h"
 #include "util/rolls_of_paper_parser.h"
@@ -50,8 +51,7 @@ void day4_part1(void) {
   Matrix input_rolls_of_paper = read_input_rolls_of_paper(
       "/home/mtb/Projects/advent-of-code-2025/input/rolls_of_paper.txt");
 
-  printf("d4p1 ....: %c\n",
-         *(char *)get_matrix_element(&input_rolls_of_paper, 1, 1));
+  printf("d4p1 ....: %d\n", accessible_rolls_of_paper(&input_rolls_of_paper));
 }
 
 int main(int argc, char *argv[]) {
