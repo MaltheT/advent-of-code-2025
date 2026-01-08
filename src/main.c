@@ -1,10 +1,21 @@
+#include <stdint.h>
+#define ARENA_IMPLEMENTATION
+#include "util/areana.h"
+#undef ARENA_IMPLEMENTATION
 #include "day1/dial.h"
 #include "day2/identify_invalid_ids.h"
 #include "day3/battery_activator.h"
 #include "day4/accessible_rolls_of_paper.h"
+#define FRESH_INGREDIENTS_IMPLEMENTATION
+#include "day5/fresh_ingredients.h"
+#undef FRESH_INGREDIENTS_IMPLEMENTATION
 #include "util/banks_parser.h"
+#define INGREDIENTS_PARSER_IMPLEMENTATION
+#include "util/ingredients_parser.h"
 #include "util/matrix.h"
 #include "util/rolls_of_paper_parser.h"
+#include <inttypes.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -54,12 +65,40 @@ void day4_part1(void) {
   printf("d4p1 ....: %d\n", accessible_rolls_of_paper(&input_rolls_of_paper));
 }
 
+void day4_part2(void) {
+  Matrix input_rolls_of_paper = read_input_rolls_of_paper(
+      "/home/mtb/Projects/advent-of-code-2025/input/rolls_of_paper.txt");
+
+  printf("d4p2 ....: %d\n", removeable_rolls_of_paper(&input_rolls_of_paper));
+}
+
+void day5_part1(void) {
+
+  Arena areana = {0};
+
+  ingredient_id_range *ingredient_id_ranges = NULL;
+  uint64_t *ingredint_values = NULL;
+  size_t ranges_count = 0, values_count = 0;
+
+  read_input_ingredient_data(
+      &areana, "/home/mtb/Projects/advent-of-code-2025/input/ingredients.txt",
+      &ingredient_id_ranges, &ranges_count, &ingredint_values, &values_count);
+
+  uint64_t fresh_count = count_num_fresh_ingredients(
+      ingredient_id_ranges, ranges_count, ingredint_values, values_count);
+  printf("d5p1 number of fresh ingredients ....: %zu\n", fresh_count);
+  printf("d5p1 number of ingredients ....: %zu\n", values_count);
+
+  arena_free(&areana);
+}
 int main(int argc, char *argv[]) {
   day1_part1();
   day1_part2();
   day2_part1();
   day3_part1();
   day4_part1();
+  day4_part2();
+  day5_part1();
 
   return EXIT_SUCCESS;
 }
