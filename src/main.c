@@ -11,6 +11,7 @@
 #undef FRESH_INGREDIENTS_IMPLEMENTATION
 #include "util/banks_parser.h"
 #define INGREDIENTS_PARSER_IMPLEMENTATION
+#include "util/ceph_math_parser.h"
 #include "util/ingredients_parser.h"
 #include "util/matrix.h"
 #include "util/rolls_of_paper_parser.h"
@@ -91,6 +92,24 @@ void day5_part1(void) {
 
   arena_free(&areana);
 }
+void day6_part1(void) {
+
+  Arena areana = {0};
+  ceph_worksheet ceph_worksheet = {0};
+
+  parse_ceph_math_worksheet(
+      &areana,
+      "/home/mtb/Projects/advent-of-code-2025/input/math_work_sheet.txt",
+      &ceph_worksheet);
+
+  printf("d6p1 ... %zu\n", ceph_worksheet.problem_count);
+  printf("d6p1 ... %u\n", ceph_worksheet.problems[0].op);
+  printf("d6p1 ... %lu\n", ceph_worksheet.problems[0].value_count);
+  printf("d6p1 ... %lu\n", ceph_worksheet.problems[0].values[0]);
+
+  arena_free(&areana);
+}
+
 int main(int argc, char *argv[]) {
   day1_part1();
   day1_part2();
@@ -99,6 +118,7 @@ int main(int argc, char *argv[]) {
   day4_part1();
   day4_part2();
   day5_part1();
+  day6_part1();
 
   return EXIT_SUCCESS;
 }
