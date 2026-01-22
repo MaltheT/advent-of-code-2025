@@ -29,9 +29,9 @@ typedef struct {
     Parses the cephalopod math worksheet.
 
     Layout assumptions:
-    - Problems are vertical columns
-    - Columns are separated by one or more full-space columns
-    - Last non-empty row contains operators
+    - Problems are vertical columns of numbers
+    - Operators are positioned between columns on the last line
+    - Multiple spaces separate columns, single spaces may be within numbers
 
     Returns 1 on success, 0 on failure.
 */
@@ -41,7 +41,7 @@ static int parse_ceph_math_worksheet(Arena *arena, const char *path,
   if (!f)
     return 0;
 
-  char lines[512][1024];
+  char lines[512][4096];
   size_t line_count = 0;
 
   while (line_count < 512 &&
@@ -57,14 +57,53 @@ static int parse_ceph_math_worksheet(Arena *arena, const char *path,
   if (line_count < 2)
     return 0;
 
-  const char *op_line = lines[line_count - 1];
+  // Find the operator line (last non-empty line)
+  int op_line_index = -1;
+  for (int i = line_count - 1; i >= 0; i--) {
+    bool has_content = false;
+    for (size_t j = 0; j < strlen(lines[i]); j++) {
+      if (lines[i][j] != ' ') {
+        has_content = true;
+        break;
+      }
+    }
+    if (has_content) {
+      op_line_index = i;
+      break;
+    }
+  }
+  
+  if (op_line_index == -1)
+    return 0;
+
+  const char *op_line = lines[op_line_index];
   size_t width = strlen(op_line);
 
-  out->problems = arena_alloc(arena, sizeof(ceph_problem) * 128);
+  // Pre-allocate space for problems
+  // First pass: count operators to know how many problems we need
+  size_t operator_count = 0;
+  for (size_t col = 0; col < width; col++) {
+    if (op_line[col] == '+' || op_line[col] == '*') {
+      operator_count++;
+    }
+  }
+
+  // Allocate space for all problems
+  out->problems = arena_alloc(arena, sizeof(ceph_problem) * operator_count);
   out->problem_count = 0;
 
+  // Second pass: parse each problem
   for (size_t col = 0; col < width;) {
-    if (op_line[col] == ' ') {
+    // Skip spaces
+    while (col < width && op_line[col] == ' ') {
+      col++;
+    }
+    if (col >= width) break;
+
+    // Find the operator at this position
+    char op_char = op_line[col];
+    
+    if (op_char != '+' && op_char != '*') {
       col++;
       continue;
     }
@@ -73,30 +112,38 @@ static int parse_ceph_math_worksheet(Arena *arena, const char *path,
     p->values = arena_alloc(arena, sizeof(uint64_t) * 64);
     p->value_count = 0;
 
-    if (op_line[col] == '+')
+    if (op_char == '+')
       p->op = CEPH_OP_ADD;
-    else if (op_line[col] == '*')
-      p->op = CEPH_OP_MUL;
     else
-      return 0;
+      p->op = CEPH_OP_MUL;
 
-    for (size_t row = 0; row + 1 < line_count; row++) {
-      if (col >= strlen(lines[row]))
-        continue;
-      if (!isdigit(lines[row][col]))
-        continue;
-
-      char buf[32];
-      size_t k = 0;
-      size_t c = col;
-
-      while (c < strlen(lines[row]) && isdigit(lines[row][c])) {
-        buf[k++] = lines[row][c++];
+    // Read numbers vertically from this column position
+    // The column starts at the operator position
+    for (int row = 0; row < op_line_index; row++) {
+      const char *line = lines[row];
+      
+      // Skip spaces at the beginning of this column position
+      size_t pos = col;
+      while (pos < strlen(line) && line[pos] == ' ') {
+        pos++;
       }
-      buf[k] = '\0';
+      
+      // If we found digits at this position, extract the number
+      if (pos < strlen(line) && isdigit(line[pos])) {
+        char buf[32];
+        size_t k = 0;
+        
+        // Extract the full number
+        while (pos < strlen(line) && isdigit(line[pos]) && k < sizeof(buf) - 1) {
+          buf[k++] = line[pos++];
+        }
+        buf[k] = '\0';
 
-      uint64_t v = strtoull(buf, NULL, 10);
-      p->values[p->value_count++] = v;
+        if (k > 0) {
+          uint64_t v = strtoull(buf, NULL, 10);
+          p->values[p->value_count++] = v;
+        }
+      }
     }
 
     col++;
