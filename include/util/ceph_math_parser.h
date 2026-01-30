@@ -72,7 +72,7 @@ static int parse_ceph_math_worksheet(Arena *arena, const char *path,
       break;
     }
   }
-  
+
   if (op_line_index == -1)
     return 0;
 
@@ -98,11 +98,12 @@ static int parse_ceph_math_worksheet(Arena *arena, const char *path,
     while (col < width && op_line[col] == ' ') {
       col++;
     }
-    if (col >= width) break;
+    if (col >= width)
+      break;
 
     // Find the operator at this position
     char op_char = op_line[col];
-    
+
     if (op_char != '+' && op_char != '*') {
       col++;
       continue;
@@ -121,20 +122,21 @@ static int parse_ceph_math_worksheet(Arena *arena, const char *path,
     // The column starts at the operator position
     for (int row = 0; row < op_line_index; row++) {
       const char *line = lines[row];
-      
+
       // Skip spaces at the beginning of this column position
       size_t pos = col;
       while (pos < strlen(line) && line[pos] == ' ') {
         pos++;
       }
-      
+
       // If we found digits at this position, extract the number
       if (pos < strlen(line) && isdigit(line[pos])) {
         char buf[32];
         size_t k = 0;
-        
+
         // Extract the full number
-        while (pos < strlen(line) && isdigit(line[pos]) && k < sizeof(buf) - 1) {
+        while (pos < strlen(line) && isdigit(line[pos]) &&
+               k < sizeof(buf) - 1) {
           buf[k++] = line[pos++];
         }
         buf[k] = '\0';

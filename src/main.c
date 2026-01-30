@@ -1,4 +1,5 @@
 #include "day6/ceph_math_problems.h"
+#include "day7/teleporter.h"
 #include <stdint.h>
 #define ARENA_IMPLEMENTATION
 #include "util/areana.h"
@@ -107,6 +108,13 @@ void day6_part1(void) {
   arena_free(&areana);
 }
 
+void day7_part1(void) {
+  char inputdata[MAX_ROW_SIZE][MAX_COL_SIZE];
+  load_teleporter_data("../input/teleporter.txt", inputdata);
+
+  printf("%c \n", inputdata[0][0]);
+}
+
 int main(int argc, char *argv[]) {
   day1_part1();
   day1_part2();
@@ -116,6 +124,7 @@ int main(int argc, char *argv[]) {
   day4_part2();
   day5_part1();
   day6_part1();
+  day7_part1();
 
   return EXIT_SUCCESS;
 }
