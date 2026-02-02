@@ -43,7 +43,7 @@ target_include_directories(${PROJECT_NAME}
         ${PROJECT_SOURCE_DIR}/include
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib)
-target_compile_definitions(${PROJECT_NAME} PRIVATE _POSIX_C_SOURCE=200809L)
+target_compile_definitions(${PROJECT_NAME} PRIVATE _POSIX_C_SOURCE=200809L PROJECT_ROOT="${PROJECT_SOURCE_DIR}")
 
 # Installation rules (optional)
 install(TARGETS ${PROJECT_NAME}

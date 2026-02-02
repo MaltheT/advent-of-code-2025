@@ -24,11 +24,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifndef PROJECT_ROOT
+#define PROJECT_ROOT ".."
+#endif
+#define INPUT_PATH(file) PROJECT_ROOT "/input/" file
+
 void day1_part1(void) {
 
   Dial dial = {.max_position = 99, .min_position = 0, .arrow_position = 50};
   InputSequence input_sequence =
-      ReadInputSequence("../input/dial_sequence.txt");
+      ReadInputSequence(INPUT_PATH("dial_sequence.txt"));
   int password = CalculatePassword(&dial, &input_sequence);
   printf("d1p1 password is: %d\n", password);
   free(input_sequence.distances);
@@ -39,7 +44,7 @@ void day1_part2(void) {
 
   Dial dial = {.max_position = 99, .min_position = 0, .arrow_position = 50};
   InputSequence input_sequence =
-      ReadInputSequence("../input/dial_sequence.txt");
+      ReadInputSequence(INPUT_PATH("dial_sequence.txt"));
   int password = CalculatePasswordPart2(&dial, &input_sequence);
   printf("d1p2 password is: %d\n", password);
   free(input_sequence.distances);
@@ -47,14 +52,14 @@ void day1_part2(void) {
 }
 
 void day2_part1(void) {
-  InputIds input_ids = ReadInputIds("../input/invalid_ids.txt");
+  InputIds input_ids = ReadInputIds(INPUT_PATH("invalid_ids.txt"));
   int sum = IdentifyInvalidIds(&input_ids);
 
   printf("d2p1 sum of invalid ids: %d\n", sum);
 }
 
 void day3_part1(void) {
-  Matrix input_banks = ReadInputBanks("../input/banks.txt");
+  Matrix input_banks = ReadInputBanks(INPUT_PATH("banks.txt"));
 
   int max_joltage = max_joltage_part1(&input_banks);
 
@@ -63,14 +68,14 @@ void day3_part1(void) {
 
 void day4_part1(void) {
   Matrix input_rolls_of_paper =
-      read_input_rolls_of_paper("../input/rolls_of_paper.txt");
+      read_input_rolls_of_paper(INPUT_PATH("rolls_of_paper.txt"));
 
   printf("d4p1 ....: %d\n", accessible_rolls_of_paper(&input_rolls_of_paper));
 }
 
 void day4_part2(void) {
   Matrix input_rolls_of_paper =
-      read_input_rolls_of_paper("../input/rolls_of_paper.txt");
+      read_input_rolls_of_paper(INPUT_PATH("rolls_of_paper.txt"));
 
   printf("d4p2 ....: %d\n", removeable_rolls_of_paper(&input_rolls_of_paper));
 }
@@ -83,7 +88,7 @@ void day5_part1(void) {
   uint64_t *ingredint_values = NULL;
   size_t ranges_count = 0, values_count = 0;
 
-  read_input_ingredient_data(&areana, "../input/ingredients.txt",
+  read_input_ingredient_data(&areana, INPUT_PATH("ingredients.txt"),
                              &ingredient_id_ranges, &ranges_count,
                              &ingredint_values, &values_count);
 
@@ -98,7 +103,7 @@ void day6_part1(void) {
   Arena areana = {0};
   ceph_worksheet ceph_worksheet = {0};
 
-  parse_ceph_math_worksheet(&areana, "../input/math_work_sheet.txt",
+  parse_ceph_math_worksheet(&areana, INPUT_PATH("math_work_sheet.txt"),
                             &ceph_worksheet);
 
   uint64_t result = calcuate_grand_total(ceph_worksheet);
@@ -110,9 +115,11 @@ void day6_part1(void) {
 
 void day7_part1(void) {
   char inputdata[MAX_ROW_SIZE][MAX_COL_SIZE];
-  load_teleporter_data("../input/teleporter.txt", inputdata);
+  load_teleporter_data(INPUT_PATH("teleporter.txt"), inputdata);
+  create_beams(inputdata);
+  int result = count_beams(inputdata);
 
-  printf("%c \n", inputdata[0][0]);
+  printf("d7p1 result... %d \n", result); // 6189 too high
 }
 
 int main(int argc, char *argv[]) {

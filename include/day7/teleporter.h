@@ -9,6 +9,15 @@
 #define BEAM '|'
 
 void load_teleporter_data(char *path_to_txt,
+                          char inputdata[MAX_ROW_SIZE][MAX_COL_SIZE]);
+
+void create_beams(char data[MAX_ROW_SIZE][MAX_COL_SIZE]);
+
+int count_beams(char data[MAX_ROW_SIZE][MAX_COL_SIZE]);
+
+//=== IMPL ===
+
+void load_teleporter_data(char *path_to_txt,
                           char inputdata[MAX_ROW_SIZE][MAX_COL_SIZE]) {
   FILE *fptr;
   fptr = fopen(path_to_txt, "r");
@@ -44,11 +53,39 @@ void create_beams(char data[MAX_ROW_SIZE][MAX_COL_SIZE]) {
   for (;;) {
     while (data[row_i][col_i] != '\0') {
       if (data[row_i][col_i] == START || data[row_i][col_i] == BEAM) {
-        if (data[row_i + 1][col_i] == EMPTY)
+        if (data[row_i + 1][col_i] == EMPTY) {
           data[row_i + 1][col_i] = BEAM;
+        } else if (data[row_i + 1][col_i] == SPLITTER) {
+
+          if (data[row_i + 1][col_i - 1] == EMPTY)
+            data[row_i + 1][col_i - 1] = BEAM;
+
+          if (data[row_i + 1][col_i + 1] == EMPTY)
+            data[row_i + 1][col_i + 1] = BEAM;
+        }
       }
       col_i++;
     }
+    col_i = 0;
     row_i++;
+    if (data[row_i][col_i] == '\0')
+      break;
   }
+}
+
+int count_beams(char data[MAX_ROW_SIZE][MAX_COL_SIZE]) {
+
+  int row_i = 0, col_i = 0, ctr = 0;
+  for (;;) {
+    while (data[row_i][col_i] != '\0') {
+      if (data[row_i][col_i] == BEAM)
+        ctr++;
+      col_i++;
+    }
+    col_i = 0;
+    row_i++;
+    if (data[row_i][col_i] == '\0')
+      break;
+  }
+  return ctr;
 }
