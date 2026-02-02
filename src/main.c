@@ -116,8 +116,7 @@ void day6_part1(void) {
 void day7_part1(void) {
   char inputdata[MAX_ROW_SIZE][MAX_COL_SIZE];
   load_teleporter_data(INPUT_PATH("teleporter.txt"), inputdata);
-  create_beams(inputdata);
-  int result = count_beams(inputdata);
+  int result = create_beams(inputdata);
 
   printf("d7p1 result... %d \n", result); // 6189 too high
 }
