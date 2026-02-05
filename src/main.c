@@ -121,6 +121,14 @@ void day7_part1(void) {
   printf("d7p1 result... %d \n", result); // 6189 too high
 }
 
+void day8_part1(void) {
+  char inputdata[MAX_ROW_SIZE][MAX_COL_SIZE];
+  load_teleporter_data(INPUT_PATH("teleporter.txt"), inputdata);
+  int result = create_beams(inputdata);
+
+  printf("d7p1 result... %d \n", result); // 6189 too high
+}
+
 int main(int argc, char *argv[]) {
   day1_part1();
   day1_part2();
@@ -129,8 +137,9 @@ int main(int argc, char *argv[]) {
   day4_part1();
   day4_part2();
   day5_part1();
-  day6_part1();
+  // day6_part1();
   day7_part1();
+  day8_part1();
 
   return EXIT_SUCCESS;
 }

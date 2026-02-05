@@ -1,2 +1,8 @@
 CompileFlags:
-  Add: [-DINGREDIENTS_PARSER_IMPLEMENTATION, -DFRESH_INGREDIENTS_IMPLEMENTATION, -DCEPH_MATH_PROBLEMS_IMPLEMENTATION]
+  Add: [-DINGREDIENTS_PARSER_IMPLEMENTATION, -DFRESH_INGREDIENTS_IMPLEMENTATION, -DCEPH_MATH_PROBLEMS_IMPLEMENTATION, --target=x86_64-w64-mingw32]
+  CompilationDatabase: build/
+  Compiler: C:\Users\malth\AppData\Local\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin\gcc.exe
+  QueryDriver: "C:/Users/malth/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/bin/gcc.exe"
+
+Index:
+  Background: Build
