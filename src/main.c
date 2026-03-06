@@ -1,5 +1,6 @@
 #include "day6/ceph_math_problems.h"
 #include "day7/teleporter.h"
+#include "day8/junction_boxes.h"
 #include <stdint.h>
 #define ARENA_IMPLEMENTATION
 #include "util/areana.h"
@@ -122,11 +123,28 @@ void day7_part1(void) {
 }
 
 void day8_part1(void) {
-  char inputdata[MAX_ROW_SIZE][MAX_COL_SIZE];
-  load_teleporter_data(INPUT_PATH("teleporter.txt"), inputdata);
-  int result = create_beams(inputdata);
+  JunctionBox inputdata[MAX_INPUT_LEN];
+  i32 input_len = 0;
+  i32 num_circuits = 0;
+  i32 circuits_elems_counter[MAX_INPUT_LEN];
 
-  printf("d7p1 result... %d \n", result); // 6189 too high
+  b32 success_00 = load_junction_box_data(INPUT_PATH("junction_boxes.txt"),
+                                          inputdata, &input_len);
+  if (!success_00) {
+    printf("Something went wrong while loading the junction_boxes.txt data");
+    return;
+  }
+  b32 success_01 = connect_junction_boxes(inputdata, input_len, &num_circuits,
+                                          circuits_elems_counter);
+
+  if (!success_01) {
+    printf("something went wrong while connecting the junction boxes");
+    return;
+  }
+  i32 result =
+      find_product_n_largest_circuits(3, num_circuits, circuits_elems_counter);
+
+  printf("d8p1 result... %d \n", result); // 150, 336 too low
 }
 
 int main(int argc, char *argv[]) {
