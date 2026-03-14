@@ -16,6 +16,7 @@
 #undef FRESH_INGREDIENTS_IMPLEMENTATION
 #include "util/banks_parser.h"
 #define INGREDIENTS_PARSER_IMPLEMENTATION
+#include "day9/red_tiles.h"
 #include "util/ceph_math_parser.h"
 #include "util/ingredients_parser.h"
 #include "util/matrix.h"
@@ -147,17 +148,31 @@ void day8_part1(void) {
   printf("d8p1 result... %d \n", result); // 150, 336 too low
 }
 
+void day9_part1(void) {
+
+  RedTileData red_tile_data;
+  b32 err = load_red_tiles_data(INPUT_PATH("red_tiles.txt"), &red_tile_data);
+  if (err != 0) {
+    printf("day 9 part one did not load data succesfully");
+  }
+
+  u64 result = size_of_biggest_rectangle(red_tile_data);
+
+  printf("d9p1 result... %llu \n", result); // 4750038360 too low
+}
+
 int main(int argc, char *argv[]) {
-  day1_part1();
-  day1_part2();
-  day2_part1();
-  day3_part1();
-  day4_part1();
-  day4_part2();
-  day5_part1();
+  // day1_part1();
+  // day1_part2();
+  // day2_part1();
+  // day3_part1();
+  // day4_part1();
+  // day4_part2();
+  // day5_part1();
   // day6_part1();
-  day7_part1();
-  day8_part1();
+  // day7_part1();
+  // day8_part1();
+  day9_part1();
 
   return EXIT_SUCCESS;
 }
