@@ -26,18 +26,18 @@ u64 size_of_biggest_rectangle(RedTileData red_tile_data);
 b32 load_red_tiles_data(char *path_to_txt, RedTileData *red_tile_data) {
   FILE *fptr;
   u8 max_line_len = 128;
-  i32 err = fopen_s(&fptr, path_to_txt, "r");
+  fptr = fopen(path_to_txt, "r");
 
-  if (err != 0) {
+  if (fptr == NULL) {
     printf("Failed to open file at: %s", path_to_txt);
-    return err;
+    return 1;
   }
 
   char buff[max_line_len];
   u32 i = 0;
   RedTile tile;
   while (fgets(buff, max_line_len, fptr)) {
-    sscanf_s(buff, "%u,%u", &tile.x, &tile.y);
+    sscanf(buff, "%u,%u", &tile.x, &tile.y);
     red_tile_data->tiles[i] = tile;
     i++;
   }
@@ -52,6 +52,8 @@ u64 size_of_rectangle(RedTile red_tile_1, RedTile red_tile_2) {
 
   u64 y_len = (red_tile_1.y > red_tile_2.y) ? red_tile_1.y - red_tile_2.y
                                             : red_tile_2.y - red_tile_1.y;
+  x_len += 1;
+  y_len += 1;
   u64 area = x_len * y_len;
   return area;
 }
